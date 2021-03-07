@@ -22,7 +22,7 @@ func VerfiyPayment()  {
 	payload, _ := json.Marshal(data)
 
 	req, _ := http.NewRequest("POST", config.VERIFY_URL, bytes.NewBuffer(payload))
-	ctx1,_ :=context.WithTimeout(ctx,time.Millisecond*100)
+	ctx1,_ :=context.WithTimeout(ctx,time.Minute)
 	req=req.WithContext(ctx1)
 	helper.ReqHeader(req)
 

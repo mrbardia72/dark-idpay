@@ -36,7 +36,7 @@ func CreateTNX()  {
 	get_order_id := data["order_id"]
 	payload, _ := json.Marshal(data)
 	req, _ := http.NewRequest("POST", config.CREATE_URL_TNX, bytes.NewBuffer(payload))
-	ctx1,_ :=context.WithTimeout(ctx,time.Millisecond*100)
+	ctx1,_ :=context.WithTimeout(ctx,time.Minute)
 	req=req.WithContext(ctx1)
 	helper.ReqHeader(req)
 
