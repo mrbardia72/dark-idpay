@@ -18,23 +18,26 @@ var logpayCollection = config.DbConfig().Database("idpay").Collection("logpay")
 var keypayCollection = config.DbConfig().Database("idpay").Collection("keypay")
 
 func CreateTNX()  {
+	ctx := context.Background()
 	date_now := time.Now().Format("02-01-2006")
 	time_now := time.Now().Format("15:04:05")
 
 	data := map[string]string{
 		"order_id": "444",
 		"amount":   "23000",
-		"name":     "بردیا ساسانی",
-		"phone":    "09360777789",
-		"mail":     "vooo@owww.rio",
+		"name":     "بردیا کاظمی",
+		"phone":    "09360750299",
+		"mail":     "langroud@gilan.iran",
 		"desc":     "توضیحات پرداخت کننده",
-		"callback": "https://mrb.com/get/m/pop",
+		"callback": "https://mrb.com/v/lg/34ew",
 		"date-now":	date_now,
 		"time-now":	time_now,
 	}
 	get_order_id := data["order_id"]
 	payload, _ := json.Marshal(data)
 	req, _ := http.NewRequest("POST", config.CREATE_URL_TNX, bytes.NewBuffer(payload))
+	ctx1,_ :=context.WithTimeout(ctx,time.Millisecond*100)
+	req=req.WithContext(ctx1)
 	helper.ReqHeader(req)
 
 	res, _ := http.DefaultClient.Do(req)
@@ -42,8 +45,6 @@ func CreateTNX()  {
 	body, _ := ioutil.ReadAll(res.Body)
 
 	app1 := helper.UnJSON(body)
-
-	ctx := context.Background()
 
 	insertResult, err := logpayCollection.InsertOne(ctx, &data)
 	if err != nil {

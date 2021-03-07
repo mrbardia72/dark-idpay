@@ -4,13 +4,16 @@ import (
 	"../config"
 	"../helper"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 func TransactionsPayment() {
+	ctx:=context.Background()
 	data := map[string]string{
 		"id": "e22952579725883bbad9f8fa429134bf",
 		"order_id": "101",
@@ -26,7 +29,8 @@ func TransactionsPayment() {
 	payload, _ := json.Marshal(data)
 
 	req, _ := http.NewRequest("POST", config.TRANSACTIONS_URL, bytes.NewBuffer(payload))
-
+	ctx1,_ :=context.WithTimeout(ctx,time.Millisecond*100)
+	req=req.WithContext(ctx1)
 	helper.ReqHeader(req)
 
 	res, _ := http.DefaultClient.Do(req)
